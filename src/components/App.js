@@ -1,19 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-class App extends React.Component {
-  state = { resource: 'posts' };
+const App = () => {
+  // [resource, setResource] is a syntax called array destructuring.
+  // Example:
+  //   const myColors = ['red', 'green', 'blue'];
+  //   const [firstColor, secondColor] = myColors;
+  //
+  //   console.log(firstColor) // returns 'red'
+  //   console.log(secondColor) // returns 'green'
+  // 
+  // Thus, useState('posts') must be some array.
+  const [resource, setResource] = useState('posts');
 
-  render () {
-    return (
+  return (
+    <div>
       <div>
-        <div>
-          <button onClick={() => this.setState({resource: 'posts'})}>Posts</button>
-          <button onClick={() => this.setState({resource: 'todos'})}>Todos</button>
-        </div>
-        {this.state.resource}
+        <button onClick={() => setResource('posts')}>Posts</button>
+        <button onClick={() => setResource('todos')}>Todos</button>
       </div>
-    );
-  }
+      {resource}
+    </div>
+  );
 }
 
 export default App;

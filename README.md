@@ -16,6 +16,8 @@ A react application built to understand hooks in react 16.
 
 [Class Component ResourceList](#class-component-resourcelist)
 
+[ResourceList Refactored](#resource-list-refactored)
+
 
 
 ### Initial Setup and Design
@@ -273,4 +275,40 @@ A react application built to understand hooks in react 16.
      }
    ```
 
+### ResourceList Refactored
+
+1. Refactor ResourceList to a functional component.
+
+   ```jsx
+   import React from 'react';
+   import axios from 'axios';
    
+   const ResourceList = () => {
+     const fetchResource = async () => {
+       const response = await axios.get(`http://jsonplaceholder.typicode.com/${this.props.resource}`);
+     
+       this.setState({ resources: response.data });
+     }
+     
+     return <div></div>;
+   }
+   
+   export default ResourceList;
+   ```
+
+2. This component will use the 'useState' and 'useEffect' hooks.
+
+   First, let's add the useState hook to create our state variable 'resources'.
+
+   ```jsx
+   import { useState } from 'react';
+   
+   const ResourceList = () => {
+     const [resources, setResources] = useState([]);
+     
+     return <div>{resources.length}</div>;
+   }
+   ```
+
+   
+

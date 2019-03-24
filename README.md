@@ -187,3 +187,86 @@ A react application built to understand hooks in react 16.
 
    So far, so good.
 
+6. Inside the ResourceList component, let's make use of the currently selected resource to make an api call to jsonplaceholder with axios.
+
+   Install axios.
+
+   `npm install --save axios`
+
+   Inside ResourceList,
+
+   ```jsx
+   import axios from 'axios';
+   ```
+
+   The question now is, when do we want to make the GET request to jsonplaceholder? We probably want to make it as soon as this component first renders on the screen.
+
+   ```jsx
+   class ResourceList extends React.Component {
+     componentDidMount() {
+       axios.get(`http://jsonplaceholder.typicode.com/${this.props.resource}`);
+     }
+   }
+   ```
+
+   To find out if our GET request was successful, check the network tab in chrome.
+
+7. Now, we need to somehow get ResourceList to re-render itself after it has successfully made the GET request. Recall whenever we want to re-render a component, we always make use of **state**. For now, we are going to create a state object to store the response from the GET request and print out the length of the data. (There should be 100 posts and 200 todos.)
+
+   ```jsx
+   class ResourceList extends React.Component {
+     state = { resources: [] };
+   
+     async componentDidMount() {
+       const response = await axios.get(`http://jsonplaceholder.typicode.com/${this.props.resource}`);
+     
+       this.setState({ resources: response.data });
+     }
+   
+     render() {
+       return <div>{this.state.resources.length}</div>;
+     }
+   }
+   ```
+
+   **Problem:** Axios made a GET request to /posts but no matter how many times we click on 'todos' button, the GET request to /todos is not made.
+
+   **Explanation:**
+
+   ​	Step 1. App component created, initializes state 'resources' of 'posts'.
+
+   ​	Step 2. App renders ResourceList.
+
+   ​	Step 3. ResourceList's 'componentDidMount' called, fetches posts.
+
+   ​	Step 4. Fetch completed, setState called, number of posts rendered.
+
+   ​	Step 5. We click 'todos' button, App updates its state, re-renders itself *and* ResourceList.
+
+   ​	Step 6. ResourceList was already ***mounted*** so, 'componentDidMount' is not called a second time!
+
+   **Solution:** Make use of the lifecycle method 'componentDidUpdate'. So we might want to write something like this.
+
+   ```jsx
+     async componentDidUpdate() {
+       const response = await axios.get(`http://jsonplaceholder.typicode.com/${this.props.resource}`);
+     
+       this.setState({ resources: response.data });   
+     }
+   ```
+
+   **Follow-up Problem:** However, this is bad, because we have setState() inside of this lifecycle method. Which means, this component is updated and this lifecycle method will keep calling itself endlessly.
+
+   **Solution:** We can make use of the 'prevProps' argument inside 'componentDidMount(prevProps)'. We can check if the prevProp changed, then make a request. However, if it didn't change then don't make a request.
+
+   ```jsx
+     async componentDidUpdate(prevProps) {
+       if (prevProps.resource !== this.props.resource) {
+         const response = await axios.get(`http://jsonplaceholder.typicode.com/${this.props.resource}`);
+       
+         this.setState({ resources: response.data });  
+       }
+     }
+   ```
+
+   

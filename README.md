@@ -10,9 +10,11 @@ A react application built to understand hooks in react 16.
 
 [Initial Setup and Design](#initial-setup-and-design)
 
-[Class Component](#class-component)
+[Class Component App](#class-component-app)
 
-[Hooks](#hooks)
+[App Refactored](#app-refactored)
+
+[Class Component ResourceList](#class-component-resourcelist)
 
 
 
@@ -56,7 +58,7 @@ A react application built to understand hooks in react 16.
 
 6. **Design:** We have two components, App and ResourceList. App has two buttons 'Posts' and 'Todos', and the ResourceList will render the title of the '/posts' and 'todos' from jsonplaceholder api.
 
-### Class Component
+### Class Component App
 
 1. First thing to do, render the two buttons inside of App.
 
@@ -95,7 +97,7 @@ A react application built to understand hooks in react 16.
    }
    ```
 
-### Hooks
+### App Refactored
 
 | Name       | Goal                                                         |
 | ---------- | ------------------------------------------------------------ |
@@ -144,6 +146,8 @@ A react application built to understand hooks in react 16.
    **initialValue:** starting value for this piece of state, similar to when we initialized our object.
 
    Notice how in class-components, we make use of an object to keep track of the states. And in functional-components all the states separated individually.
+
+### Class Component ResourceList
 
 3. Create a new component ResourceList.
 

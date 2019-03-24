@@ -310,5 +310,31 @@ A react application built to understand hooks in react 16.
    }
    ```
 
-   
+3. Recall that we passed a prop called 'resource' from App component. We want to make sure our functional class component has access to the prop.
 
+   ```jsx
+   const ResourceList = ({ resource }) => {
+   }
+   ```
+
+   Now we want to make sure when ResourceList is first rendered, we want to fetch the list of 'posts' from the api server. And whenever 'resource' gets updated, we want to fetch new resources from the api server and re-render ResourceList. To do this, we can make use of the 'useEffect' hook. It is a combination of 'componentDidMount' and 'componentDidUpdate'.
+
+   ```jsx
+   const ResourceList = ({ resource }) => {
+     const [resources, setResources] = useState([]);
+   
+     const fetchResource = async (resource) => {
+       const response = await axios.get(`http://jsonplaceholder.typicode.com/${resource}`);
+     
+       setResources(response.data);
+     }
+   
+     useEffect(() => {
+       fetchResource(resource)
+     }, [])
+     
+     return <div>{resources.length}</div>;
+   }
+   ```
+
+   This code is equivalent to using 'componentDidMount' lifecycle method as before when ResourceList was a class. We still need to make sure fetchResource gets called again when 'resource' is updated in the App component.

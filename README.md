@@ -144,3 +144,46 @@ A react application built to understand hooks in react 16.
    **initialValue:** starting value for this piece of state, similar to when we initialized our object.
 
    Notice how in class-components, we make use of an object to keep track of the states. And in functional-components all the states separated individually.
+
+3. Create a new component ResourceList.
+
+   ```jsx
+   import React from 'react';
+   
+   class ResourceList extends React.Component {
+     render() {
+       return <div></div>;
+     }
+   }
+   
+   export default ResourceList;
+   ```
+
+4. Inisde App, pass 'resource' down to ResourceList as a prop.
+
+   ```jsx
+   import ResourceList from './ResourceList';
+   
+   const App = () => {
+     const [resource, setResource] = useState('posts');
+   
+     return (
+       <div>
+         <div>
+           <button onClick={() => setResource('posts')}>Posts</button>
+           <button onClick={() => setResource('todos')}>Todos</button>
+         </div>
+         <ResourceList resource={resource} />
+       </div>
+     );
+   }
+   ```
+
+5. Back inside ResourceList, let's test if we can print out the currently selected resource inside here.
+
+   ```jsx
+   return <div>{this.props.resource}</div>;
+   ```
+
+   So far, so good.
+

@@ -407,5 +407,29 @@ A react application built to understand hooks in react 16.
      );
    ```
 
-   
+6. Recall that hooks not only allow functional components to behave like class components, but also more easy to reuse codes. Inside our ResourceList component, all the code inside the functional component is based on the input 'resource' prop. The only output is the list of 'resources' that we fetched. Let's try to extract and reuse all the hook related logics that accepts the resource prop and outputs the resources array.
 
+   ```jsx
+   const useResources = (resource) => {
+     const [resources, setResources] = useState([]);
+   
+     useEffect(() => {
+       // fetchResource(resource)
+       (async () => {
+         const response = await axios.get(`http://jsonplaceholder.typicode.com/${resource}`);
+         
+         setResources(response.data);
+       })();
+     }, [resource])
+   
+     return resources;
+   }
+   ```
+
+   Now, inside of the ResourceList component we can easily reuse these logics by
+
+   ```jsx
+   const resources = useResources(resource);
+   ```
+
+   

@@ -395,4 +395,17 @@ A react application built to understand hooks in react 16.
      }, [resource])
      ```
 
+5. Finally, to render out the titles of the resources
+
+   ```jsx
+     return (
+       <ul>
+         {resources.map(record =>
+           <li key={record.id}>{record.title}</li>
+         )}
+       </ul>
+     );
+   ```
+
    
+

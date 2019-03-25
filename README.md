@@ -432,4 +432,72 @@ A react application built to understand hooks in react 16.
    const resources = useResources(resource);
    ```
 
+7. Note that we can easily reuse these logics in another component. First create a new file called 'useResources.js' to store the hook logics
+
+   ```jsx
+   import { useState, useEffect } from 'react';
+   import axios from 'axios';
    
+   const useResources = (resource) => {
+     const [resources, setResources] = useState([]);
+   
+     useEffect(() => {
+       // fetchResource(resource)
+       (async () => {
+         const response = await axios.get(`http://jsonplaceholder.typicode.com/${resource}`);
+         
+         setResources(response.data);
+       })();
+     }, [resource])
+   
+     return resources;
+   }
+   
+   export default useResources;
+   ```
+
+   Back inside ResourceList,
+
+   ```jsx
+   import useResources from './useResources';
+   ```
+
+8. As a new challenge let's add a new resource button called 'user', and make it work to print out the 'name' of each user in ResourceList.
+
+   Make a new component `src/components/UserList.js`
+
+   ```jsx
+   import React from 'react';
+   import useResources from './useResources';
+   
+   const UserList = () => {
+     const users = useResources('users');
+   
+     return (
+       <ul>
+         {users.map(user => 
+           <li key={user.id}>{user.name}</li>
+         )}
+       </ul>
+     );
+   }
+   
+   export default UserList;
+   ```
+
+   Inside of App component,
+
+   ```jsx
+   import UserList from './UserList';
+   
+   ...
+   <UserList />
+   ...
+   ```
+
+   
+
+```jsx
+
+```
+

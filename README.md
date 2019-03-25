@@ -350,3 +350,49 @@ A react application built to understand hooks in react 16.
    **Explanation**:
 
      We are calling useEffect hook method every time ResourceList is re-rendered. So, we are recreating the array in the second argument, or possible new values into the array. In our case, if 'prop.resource' is different, useEffect()  is going to be called and fetch data from jsonplaceholder again.
+
+   **Some cases:**
+
+   1. If second argument is not provided, then useEffect will call itself endlessly. (BAD)
+
+   2. If second argument is provided as an empty array, then useEffect will only be called once when the component is render. (Identical to componentDidMount.)
+
+   3. If the second argument is provided as an array with a constant value, then it won't be called the second time, since the element cannot never change.
+
+   4. If the second argument is provided as an array with an element that's an object, it will be called the second because a new object will be evaluated as a different element even if the prop is same.
+
+   **Question**:
+
+     Why didn't we write the fetchResource logic directly inside the useEffect callback function and make the function async?
+
+   **Answer**:
+
+     We will get an error that tells us that useEffect does not accept any async functions.
+
+     Example:
+
+     ```jsx
+     useEffect(async (resource) => {
+       const response = await axios.get(`http://jsonplaceholder.typicode.com/${resource}`);
+   
+       setResources(response.data);
+     }, [resource])
+     ```
+
+      Note: actually, we don't need 'resource' as a parameter, because the function can get access to prop.
+
+   **Alternative:**
+
+     We can pass an async function right inside of the useEffect callback function, and invoke the async function immediately by a second pair of paranthesis.
+
+     ```jsx
+     useEffect(() => {
+       // fetchResource(resource)
+       (async () => {
+         const response = await axios.get(`http://jsonplaceholder.typicode.com/${resource}`);
+         setResources(response.data);
+       })();
+     }, [resource])
+     ```
+
+   

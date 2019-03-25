@@ -338,3 +338,15 @@ A react application built to understand hooks in react 16.
    ```
 
    This code is equivalent to using 'componentDidMount' lifecycle method as before when ResourceList was a class. We still need to make sure fetchResource gets called again when 'resource' is updated in the App component.
+
+4. Inside ResouceList, we want to fetch data from jsonplaceholder when current resource is changed. The only change we have to add, is to assign 'prop.resource'  as an element in the second argument of useEffect().
+
+   ```jsx
+     useEffect(() => {
+       fetchResource(resource)
+     }, [resource])
+   ```
+
+   **Explanation**:
+
+     We are calling useEffect hook method every time ResourceList is re-rendered. So, we are recreating the array in the second argument, or possible new values into the array. In our case, if 'prop.resource' is different, useEffect()  is going to be called and fetch data from jsonplaceholder again.
